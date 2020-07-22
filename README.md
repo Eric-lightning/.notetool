@@ -5,9 +5,10 @@
 ### Inspired by
 
 - Time Management for System Administrators(tlanslated Japanese) (Thomas A. Limoncelli, Oreilly)
-- Dstask Single binary terminal-based todo manager: git-based sync + markdown notes for each task. 
+- `dstask` Single binary terminal-based todo manager: git-based sync + markdown notes for each task. 
+  - naggle/dstask
 
-so,
+to...
 
 - Portability
 - Reliability
