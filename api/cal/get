@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Day
+function getDay(){
+  cat $1
+}
+
+# week
+
+
+# Month
+
+
+#-------------------
+getDay $*
+

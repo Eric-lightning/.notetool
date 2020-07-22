@@ -1,13 +1,49 @@
-#!/bin/bash -x
+#!/bin/bash
 #-----------
 # $1     ... YYYY/MM/DD
 # $2     ... HH:MM or ALLDAY
 # ${*:3} ... Schdule
 #--------------------------
-# Check argements
+source $NOTE_HOME/include/checkDate
+#--------------------------
+date_str=$(date +'%Y/%m/%d')
+time_str=""
+endtime_str=""
+title_str=""
+location_str=""
+tags_str=""
+#------------------
+# Analyze Argments
+for arg in $@
+do
+  res="$(checkDate $arg $date_str)" && \
+  if [[ "$res" != "no_date" ]] ; then
+    date_str="$res"
+    continue
+  fi ; if [[ "$arg" =~ ^[0-9]*:[0-9]*$ || "$arg" == "ALLDAY" ]] ; then
+    time_str="$arg" ; continue
+  fi ; if [[ "$arg" =~ ^-[0-9]*:[0-9]*$ || "$arg" == "ALLDAY" ]] ; then
+  endtime_str="$arg" ; continue
+  fi ; if [[ "$arg" =~ ^@.*$ ]] ; then
+    location_str="$arg" ; continue
+  fi ; if [[ "$arg" =~ ^%.*$ ]] ; then
+    tags_str="$tags_str $arg" ; continue
+  else
+    title_str="${title_str}$arg "
+  fi
+done
+title_str=$(echo $title_str | sed -e 's/¥ *$//g')
+#----------
+if [[ $time_str == "" || $title_str == "" ]] ; then
+  echo "api.cal.add - Error! undefined to time_str or title_str" > /dev/stderr
+  exit 1
+fi
+insert_text="$time_str $endtime_str $title_str $location_str $tags_str"
 
-#-----------
-insert_file_path="${NOTE_HOME}/cal/${1}"
+#---------------
+# Insert
+
+insert_file_path="${NOTE_HOME}/cal/${date_str}"
 
 # Check Insert Line
 insert_line_number=1
@@ -15,24 +51,25 @@ insert_file_line_number=$(wc -l $insert_file_path | awk '{print $1}')
 if [[ $insert_file_line_number -ne 0 ]]
 then
   insert_line_number=1
-  if [[ "${2}" != "ALLDAY" ]]
+  if [[ "${time_str}" != "ALLDAY" ]]
   then
-    def_time=$(date -d "$1 $2" +'%s')
+    def_time=$(date -d "$date_str $time_str" +'%s')
     while read line
     do
-      if [[ $def_time -lt $(date -d "$1 $(echo $line | awk '{print $1}')" +'%s') ]]
+      if [[ $def_time -lt $(date -d "$date_str $(echo $line | awk '{print $1}')" +'%s') ]]
       then
         break
       fi
       ((insert_line_number++))
     done < "$insert_file_path"
   fi
+  #---------------------------------------------------------------
   if [[ $insert_line_number -gt $insert_file_line_number ]]
   then
-    echo "$2 ${@:3}" >> "$insert_file_path"
+    echo "$insert_text" >> "$insert_file_path"
   else
-    sed -i -e "${insert_line_number}i $2 ${@:3}" "${insert_file_path}"
+    sed -i -e "${insert_line_number}i $2 $insert_text" "${insert_file_path}"
   fi
 else
-  echo "$2 ${@:3}" >> "$insert_file_path"
+  echo "$insert_text" >> "$insert_file_path"
 fi
