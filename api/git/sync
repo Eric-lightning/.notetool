@@ -1,0 +1,4 @@
+#!/bin/bash
+cd $NOTE_HOME
+git pull
+git push

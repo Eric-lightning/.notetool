@@ -1,0 +1,4 @@
+#!/bin/bash
+cd $NOTE_HOME
+git add "$1"
+git commit -m"$2"
