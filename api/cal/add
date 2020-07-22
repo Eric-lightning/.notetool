@@ -1,0 +1,38 @@
+#!/bin/bash -x
+#-----------
+# $1     ... YYYY/MM/DD
+# $2     ... HH:MM or ALLDAY
+# ${*:3} ... Schdule
+#--------------------------
+# Check argements
+
+#-----------
+insert_file_path="${NOTE_HOME}/cal/${1}"
+
+# Check Insert Line
+insert_line_number=1
+insert_file_line_number=$(wc -l $insert_file_path | awk '{print $1}')
+if [[ $insert_file_line_number -ne 0 ]]
+then
+  insert_line_number=1
+  if [[ "${2}" != "ALLDAY" ]]
+  then
+    def_time=$(date -d "$1 $2" +'%s')
+    while read line
+    do
+      if [[ $def_time -lt $(date -d "$1 $(echo $line | awk '{print $1}')" +'%s') ]]
+      then
+        break
+      fi
+      ((insert_line_number++))
+    done < "$insert_file_path"
+  fi
+  if [[ $insert_line_number -gt $insert_file_line_number ]]
+  then
+    echo "$2 ${@:3}" >> "$insert_file_path"
+  else
+    sed -i -e "${insert_line_number}i $2 ${@:3}" "${insert_file_path}"
+  fi
+else
+  echo "$2 ${@:3}" >> "$insert_file_path"
+fi
