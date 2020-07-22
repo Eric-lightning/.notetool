@@ -1,14 +1,15 @@
 function checkDate(){
-  if [[ "$1" =~ ^[0-9]*y$ ]] ; then
+
+  if [[ "$1" =~ [0-9]*y$ ]] ; then
     del_char="y"
     change_suffix="years"
   else 
-    if [[ "$1" =~ ^[0-9]*m$ ]] ; then
+    if [[ "$1" =~ [0-9]*m$ ]] ; then
     del_char="m"
     change_suffix="months"
     else 
-      if [[ "$1" =~ ^[0-9]*d$ ]] ; then
-        del_char="y"
+      if [[ "$1" =~ [0-9]*d$ ]] ; then
+        del_char="d"
         change_suffix="days"
       else
         echo "no_date"
@@ -18,7 +19,7 @@ function checkDate(){
   fi
   if [[ "$1" =~ ^[+|-] ]]
   then
-    echo $(date -d "$ "$(echo $1 | tr -d "${del_char}")" ${change_suffix}" +'%Y/%m/%d')
+    echo $(date -d "$2 "$(echo $1 | tr -d "${del_char}")" ${change_suffix}" +'%Y/%m/%d')
   else
     date_year=$(echo $2 | cut -d'/' -f1)
     date_month=$(echo $2 | cut -d'/' -f2)

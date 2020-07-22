@@ -1,16 +1,19 @@
 #!/bin/bash
-
-# Day
-function getDay(){
-  cat $1
-}
-
-# week
-
-
-# Month
-
-
-#-------------------
-getDay $*
+#-----------
+source $NOTE_HOME/include/checkDate
+#--------------------------
+date_str=$(date +'%Y/%m/%d')
+time_str=""
+#------------------
+# Analyze Argments
+for arg in $@
+do
+  res="$(checkDate $arg $date_str)" && \
+  if [[ "$res" != "no_date" ]] ; then
+    date_str="$res"
+    continue
+  fi
+done
+#-----------
+cat "${NOTE_HOME}/cal/${date_str}"
 

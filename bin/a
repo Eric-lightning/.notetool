@@ -1,0 +1,28 @@
+#!/bin/bash
+#########################################################################################
+# Functions
+function usage(){
+cat << usageEND
+a - Eric Daily Management Command
+----------------------------------
+SubCommands:
+  cr Calendar
+  dd Day Doings(CalDo)
+  td TodoList
+  rt RoutineList
+  tg TargetList(MyVisions)
+  nt Notes.(My Markdown Wiki)
+usageEND
+}
+###############################################################################
+if [[ $# -eq 0 ]] ; then usage && exit 0 ; fi
+case "$1" in
+  "cr")
+    case "$2" in
+        "add")
+          $NOTE_HOME/api/cal/add "${*:3}";;
+        "next") $NOTE_HOME/api/cal/getNexts "${*:3}"  ;;
+    esac ;;
+  *)
+    usage ;;
+esac

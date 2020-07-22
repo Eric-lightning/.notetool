@@ -8,10 +8,6 @@ source $NOTE_HOME/include/checkDate
 #--------------------------
 date_str=$(date +'%Y/%m/%d')
 time_str=""
-endtime_str=""
-title_str=""
-location_str=""
-tags_str=""
 #------------------
 # Analyze Argments
 for arg in $@

@@ -73,3 +73,7 @@ then
 else
   echo "$insert_text" >> "$insert_file_path"
 fi
+
+#------------------------------------------------------------
+#git
+#$NOTE_HOME/api/git/commit "Insert_file_path" "add schedule at $time_str"
