@@ -1,0 +1,2 @@
+#### Global Configration ####
+export NOTE_HOME="$HOME/.notebook"
