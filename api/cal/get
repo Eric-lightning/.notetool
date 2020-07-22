@@ -1,6 +1,6 @@
 #!/bin/bash
 #-----------
-source $NOTE_HOME/include/checkDate
+source $NOTE_TOOL/include/checkDate
 #--------------------------
 date_str=$(date +'%Y/%m/%d')
 time_str=""

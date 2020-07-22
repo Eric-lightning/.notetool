@@ -20,8 +20,8 @@ case "$1" in
   "cr")
     case "$2" in
         "add")
-          $NOTE_HOME/api/cal/add "${*:3}";;
-        "next") $NOTE_HOME/api/cal/getNexts "${*:3}"  ;;
+          $NOTE_TOOL/api/cal/add "${*:3}";;
+        "next") $NOTE_TOOL/api/cal/getNexts "${*:3}"  ;;
     esac ;;
   *)
     usage ;;

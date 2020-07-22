@@ -1,10 +1,6 @@
 #!/bin/bash
 #-----------
-# $1     ... YYYY/MM/DD
-# $2     ... HH:MM or ALLDAY
-# ${*:3} ... Schdule
-#--------------------------
-source $NOTE_HOME/include/checkDate
+source $NOTE_TOOL/include/checkDate
 #--------------------------
 date_str=$(date +'%Y/%m/%d')
 time_str=""
