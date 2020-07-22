@@ -1,0 +1,2 @@
+NOTE_HOME=$(cd $(dirname $0)/../; pwd )
+NOTE_EDITOR="vi"
