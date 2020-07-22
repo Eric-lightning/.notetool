@@ -1,2 +1,3 @@
 #### Global Configration ####
 export NOTE_HOME="$HOME/.notebook"
+export TOOL_HOME="$HOME/.notetool"
